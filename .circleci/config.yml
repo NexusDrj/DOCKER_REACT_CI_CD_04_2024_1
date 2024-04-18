@@ -5,6 +5,9 @@ orbs:
   node: circleci/node@5
 jobs:
   test-node-docker:
+    working_directory: /app
+    docker:
+      - image: docker:17.05.0-ce-git
     steps:
       - checkout
       - setup_remote_docker:
@@ -16,7 +19,7 @@ jobs:
       - run:
           name: Run build
           command: |
-            ddocker run react/docker-react npm run test -- --coverage
+            docker run react/docker-react npm run test -- --coverage
 
   test-node:
     # Install node dependencies and run tests
