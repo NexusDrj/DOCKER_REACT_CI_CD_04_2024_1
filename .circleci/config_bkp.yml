@@ -4,20 +4,6 @@ version: 2.1
 orbs:
   node: circleci/node@5
 jobs:
-  test-node-docker:
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          name: Run build
-          command: |
-            docker build -t react/docker-react -f Dockerfile.dev .
-      - run:
-          name: Run build
-          command: |
-            ddocker run react/docker-react npm run test -- --coverage
-
   test-node:
     # Install node dependencies and run tests
     executor: node/default
@@ -59,10 +45,10 @@ jobs:
 workflows:
   build-and-test:
     jobs:
-      - test-node-docker
-#      - build-node:
-#          requires:
-#            - test-node
+      - test-node
+      - build-node:
+          requires:
+            - test-node
     # - deploy:
     #     requires:
     #       - build-node
